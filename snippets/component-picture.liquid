@@ -1,0 +1,37 @@
+{%- comment -%}
+  {%- render 'component-picture',
+      image: image,
+      image_mobile: imageMobile,
+      image_url_width: 1920,
+      loading: 'eager/lazy/high',
+      fetchpriority: 'high/low',
+      class_name: 'class'
+      picture_tag: "true/false"
+  -%}
+{%- endcomment -%}
+
+{%- if image != blank -%}
+  {%- liquid
+    if fetchpriority == blank
+      assign fetchpriority = 'low'
+    endif
+    if loading == blank
+      assign loading = 'lazy'
+    endif
+    assign image_alt = image.alt | default: shop.name | escape
+  -%}
+  {% if picture_tag == true %}
+    <picture>
+      {% if image_mobile != blank %}
+        <source srcset="{{ image_mobile | image_url: width: "749" }}" media="(max-width: 749px)">
+      {% endif %}
+  {% endif %}
+  {{
+    image
+    | image_url: width: image_url_width
+    | image_tag: class: class_name, alt: image_alt, fetchpriority: fetchpriority, width: image_width, loading: loading
+  }}
+  {% if picture_tag == true %}
+    </picture>
+  {% endif %}
+{%- endif -%}

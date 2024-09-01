@@ -1,0 +1,118 @@
+{%- liquid
+  assign product_form_id = product.id | prepend: 'form-id-'
+  assign product_title = product.title
+  assign product_description = product.description
+  assign product_variants = product.variants
+  assign product_image = product.featured_image
+  assign product_id = product.id
+  assign product_link = product.url
+
+  assign variant = product.selected_or_first_available_variant
+  assign variant_id = variant.id
+  assign variant_available = variant.available
+  assign variant_price = variant.price
+  assign variant_compare_price = variant.compare_at_price
+
+  if variant.image != blank
+    assign product_image = variant.image
+  endif
+-%}
+
+<div id="lookbook-{{product_id}}">
+  <lookbook-product class="lookbook-product">
+    {% if product_image != blank %}
+      <a href="{{product_link}}" title="{{product_title}}" class="lookbook-product__image">
+        {%- render 'component-picture',
+          image: product_image,
+          image_url_width: 600,
+          loading: 'lazy',
+          fetchpriority: 'low',
+          picture_tag: false
+        -%}
+      </a>
+    {% endif %}
+    <div class="lookbook-product__info lookbook-info">
+      <div class="lookbook-info__wrapper">
+        <a href="{{product_link}}" title="{{product_title}}" class="lookbook-info__title">{{- product_title -}}</a>
+        <div class="lookbook-info__prices lookbook-prices">
+          {% if variant_compare_price != blank and variant_compare_price > variant_price %}
+            <span class="lookbook-prices__item lookbook-prices__item--origin">
+              {{- variant_price | money_without_trailing_zeros | strip_html -}}
+            </span>
+            <span class="lookbook-prices__item lookbook-prices__item--compare">
+              {{- variant_compare_price | money_without_trailing_zeros | strip_html -}}
+            </span>
+          {%- else -%}
+            <span class="lookbook-prices__item lookbook-prices__item--only">
+              {{- variant_price | money_without_trailing_zeros | strip_html -}}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+      {% if product_description != blank %}
+        <div class="lookbook-info__info">{{- product_description | strip_html -}}</div>
+      {% endif %}
+      <div class="lookbook-info__actions lookbook-actions">
+        <div class="lookbook-actions__selector">
+          {% if product_variants.size > 2 %}
+            <select name="lookbook-selector" data-url="{{ product_link }}" form="{{product_form_id}}">
+              {% for variant in product_variants %}
+                <option
+                  {% if variant.id == variant_id %}
+                    selected
+                  {% endif %}
+                  {% if variant.available == false %}
+                    disabled
+                  {% endif %}
+                  value="{{variant.id}}"
+                >
+                  {{ variant.title }}
+                </option>
+              {% endfor %}
+            </select>
+          {%- else -%}
+            <span>{{ 'products.product.text_one_size' | t }}</span>
+          {% endif %}
+        </div>
+        <div class="lookbook-actions__form">
+          {%- form 'product',
+            product,
+            id: product_form_id,
+            class: 'form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input type="hidden" name="quantity" value="1">
+            <input
+              type="hidden"
+              name="id"
+              value="{{ variant_id }}"
+              {% if variant_available == false or variant == null %}
+                disabled
+              {% endif %}
+            >
+
+            <button
+              type="submit"
+              name="add"
+              {% if variant_available == false or variant == null %}
+                disabled
+              {% endif %}
+            >
+              <span>
+                {%- if variant_available == null -%}
+                  {{ 'products.product.unavailable' | t }}
+                {%- elsif product.variant_available == false -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- else -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- endif -%}
+              </span>
+            </button>
+            <span class="lookbook-actions__form-error" hidden> </span>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </lookbook-product>
+</div>
