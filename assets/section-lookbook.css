@@ -304,12 +304,10 @@
 }
 
 .lookbook-actions__form-error {
-    margin-top: 10px;
-    font: normal 400 10px / 1.2 var(--font-body-family);
+    margin-left: 5px;
+    font: normal 400 10px / 1 var(--font-body-family);
     color: #f38881;
-    position: absolute;
     width: 100%;
-    bottom: -35px;
 }
 
 @media (max-width:749px) {
