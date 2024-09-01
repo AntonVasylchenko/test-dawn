@@ -243,7 +243,8 @@
 .lookbook-info__info {
     margin-top: 15px;
     font: normal 400 14px/1.2 var(--font-body-family);
-    color: #1e1e20
+    color: #1e1e20;
+    flex:1
 }
 
 .lookbook-info__info>* {
@@ -255,10 +256,9 @@
 .lookbook-actions {
     margin-top: 50px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: space-between;
     column-gap: 5px;
-    flex: 1;
 }
 
 .lookbook-actions__selector select {
