@@ -35,7 +35,6 @@
         "heading",
         "button"
       ],
-      "disabled": true,
       "settings": {
         "image_overlay_opacity": 40,
         "image_height": "large",
@@ -48,28 +47,9 @@
         "stack_images_on_mobile": false,
         "show_text_below": false
       }
-    },
-    "lookbook_edEbqy": {
-      "type": "lookbook",
-      "settings": {
-        "padding_top": 100,
-        "padding_bottom": 100,
-        "padding_top_mobile": 50,
-        "padding_bottom_mobile": 50,
-        "position_image": "left",
-        "image_desktop": "shopify:\/\/shop_images\/lookbook_pf22_02_bec01858-c1d6-44f7-b61a-b52cd5a456a1.webp",
-        "information": "<p>Our latest collection demonstrates an elegant eccentricity – bold patterns inspired by traditional nomadic dressing, embroidered buttons, ceramic detailing and artisanal stitching contrast with stark, clean-lined silhouettes that showcase refined modernity.<\/p>",
-        "name_button": "Shop the look",
-        "product_list": [
-          "wren",
-          "mexim",
-          "jen-large"
-        ]
-      }
     }
   },
   "order": [
-    "image_banner",
-    "lookbook_edEbqy"
+    "image_banner"
   ]
 }
